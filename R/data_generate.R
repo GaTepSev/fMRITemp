@@ -1,11 +1,4 @@
-library(LaplacesDemon)
-library(foreach)
-library(doParallel)
-library(Matrix)
-library(sparseMVN)
-library(Rcpp)
-# sourceCpp("R/data_generate.cpp")
-
+#' @export
 spatialMatrix.generate.indices <- function(s, d = 3)
 {
   i <- 1:(s ** d - s ** (d - 1) ** 1)
@@ -28,6 +21,8 @@ spatialMatrix.generate.indices <- function(s, d = 3)
   return(list(is = is, js = js, m = m + 1))
 }
 
+
+#' @export
 spatialMatrix.generate <- function(s, d, sparse = TRUE)
 {
   ij <- spatialMatrix.generate.indices(s, d)
@@ -50,6 +45,8 @@ spatialMatrix.generate <- function(s, d, sparse = TRUE)
   return(list(W = W, M = m))
 }
 
+
+#' @export
 voxels.initialize <- function(s, d, center, act.mean = 3, act.sd = 3, deact.mean = 0, deact.sd = 0.06 ** 0.5)
 {
   if(d == 2)
@@ -108,15 +105,11 @@ make.M <- function(s, d, begind)
 find.mu <- function(s, d, delta, begind, x)
 {
   if(d == 0) return(x/begind)
-  t1 <- Sys.time()
   W <- as.matrix(spatialMatrix.generate(s, d)$W)
   M <- make.M(s, d, begind)
   Sigma <- solve(diag(M) - delta * W)
-  tt <<- tt + (Sys.time() - t1); t1 <- Sys.time()
   y <- x %*% Sigma
-  tt1 <<- tt1 + (Sys.time() - t1)
   return(y)
-  # solve(a, b, sparse = FALSE, tol = .Machine$double.eps, ...)
 }
 sampling <- function(n, s, d = 2, delta = 0.3, begind = d)
 {
@@ -168,5 +161,5 @@ sampling <- function(n, s, d = 2, delta = 0.3, begind = d)
 data_generate <- function(theta, covariates, N, s, d, T, setting = 0)
 {
   epsilon <- t(sampling(T, s, d, theta$delta))
-  return(array(data_generate_cpp(theta, covariates, N, s ** d, T, 3, epsilon), dim = c(N, S, T)))
+  return(array(data_generate_cpp(theta, covariates, N, s ** d, T, 3, epsilon), dim = c(N, s ** d, T)))
 }

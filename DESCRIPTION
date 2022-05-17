@@ -1,13 +1,13 @@
 Package: fMRITemp
 Type: Package
-Title: What the Package Does (Title Case)
+Title: fMRI Package Test
 Version: 0.1.0
-Author: Who wrote it
+Author: Songhyun
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Suggests: 
-    testthat
+Import: stats, Matrix
+RoxygenNote: 7.1.1
