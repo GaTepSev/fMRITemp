@@ -4,7 +4,7 @@ library(doParallel)
 library(Matrix)
 library(sparseMVN)
 library(Rcpp)
-sourceCpp("srcs/data_generate.cpp")
+sourceCpp("data_generate.cpp")
 
 spatialMatrix.generate.indices <- function(s, d = 3)
 {
